@@ -1,0 +1,55 @@
+# Fabrique l'application Android (APK) d'ODA SHOP automatiquement.
+# Lance-le : onglet "Actions" > "Fabriquer l'APK" > "Run workflow" (ou à chaque envoi de index.html).
+# Le fichier se télécharge ensuite dans "Releases" (colonne de droite du dépôt) : ODA-SHOP.apk
+name: Fabriquer l'APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['index.html', 'manifest.json', 'sw.js', 'icon-*.png', '.github/workflows/apk.yml']
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - name: Préparer l'application web
+        run: |
+          mkdir -p www
+          cp index.html manifest.json sw.js www/
+          cp icon-*.png logo.png www/ 2>/dev/null || true
+      - name: Projet Android (Capacitor)
+        run: |
+          npm init -y >/dev/null
+          npm i @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npx cap init "ODA SHOP" com.odashop.agadez --web-dir www
+          npx cap add android
+          npx cap sync android
+      - name: Autorisations (position GPS) et icône
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#<application#<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>\n    <uses-feature android:name="android.hardware.location.gps" android:required="false"/>\n    <application#' "$M"
+          R=android/app/src/main/res
+          rm -rf $R/mipmap-anydpi-v26
+          for d in $R/mipmap-*; do
+            cp icon-192.png $d/ic_launcher.png
+            cp icon-192.png $d/ic_launcher_round.png
+            cp icon-192.png $d/ic_launcher_foreground.png
+          done
+      - name: Construire l'APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+      - name: Publier l'APK (Releases)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk ODA-SHOP.apk
+          gh release delete apk-latest -y --cleanup-tag || true
+          gh release create apk-latest ODA-SHOP.apk --title "ODA SHOP - application Android" --notes "Télécharge ODA-SHOP.apk puis installe-le sur ton téléphone."
+      - uses: actions/upload-artifact@v4
+        with: { name: ODA-SHOP-apk, path: ODA-SHOP.apk }
