@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1, interactive-widget=overlays-content">
 <title>ODA SHOP</title>
 <meta name="theme-color" content="#E9A800">
 <link rel="manifest" href="manifest.json">
@@ -288,14 +288,35 @@ body{padding-bottom:84px}
 .hd h2{font-size:12.5px}
 .cta b{font-size:15px}.cta p{font-size:12px}
 .pki>video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+
+/* === fluidité + écran fixe === */
+html,body{overscroll-behavior:none}
+body.lock{overflow:hidden;height:100dvh;min-height:0}
+html:has(body.lock){overflow:hidden;height:100%}
+body.lock.sr .ville{display:none}
+body.lock.sr .search{display:block;height:46px;margin:0;font-size:13.5px}
+.pc,.pk{animation:fi .2s both}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.pk{box-shadow:0 3px 8px rgba(0,0,0,.08);contain:layout paint;content-visibility:auto;contain-intrinsic-size:auto 300px}
+.cta{box-shadow:0 3px 8px rgba(0,0,0,.08)}
+#pscroll{will-change:scroll-position;transform:translateZ(0)}
+.pki>img,.sl>img{content-visibility:auto}
+.sl{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.sl::-webkit-scrollbar{display:none}
+.sl>img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:center;cursor:zoom-in}
+.pn{position:absolute;right:8px;bottom:8px;background:rgba(15,15,15,.8);color:var(--y2);font-size:11px;font-weight:800;padding:3px 8px;border-radius:10px;pointer-events:none;z-index:2}
+#zs{display:flex;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+#zs[hidden]{display:none}
+#zs img{flex:0 0 100%;max-width:100%;max-height:70vh;object-fit:contain;scroll-snap-align:center}
 </style>
 </head>
-<body>
+<body class="lock">
 
 <div id="v-accueil">
 <div class="hdr">
   <img class="logo" id="hlogo" alt="ODA SHOP">
   <div class="hi">Bienvenue <span id="nom">Zara</span>, <span id="ville">Agadez</span></div>
+  <button class="ib" id="sbtn" type="button" aria-label="Rechercher"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
   <a class="ib" href="tel:+22777174950" aria-label="Appeler"><svg class="i" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" fill="currentColor"/></svg></a>
   <a class="ib av" id="hav" href="#profil" data-v="profil" aria-label="Mon profil"></a>
 </div>
@@ -306,7 +327,7 @@ body{padding-bottom:84px}
 </div>
 <div id="msgv"></div>
 
-<input class="search" id="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="Que cherchez-vous ?">
+<input class="search" id="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="Nom ou code (ODA-001)...">
 
 <div class="stick">
 <div class="ban">
@@ -384,7 +405,7 @@ body{padding-bottom:84px}
     <button class="gl" id="glater" type="button">Plus tard</button>
   </div>
 </div>
-<div id="zoom" hidden><img id="zimg" alt=""><div id="zcap"></div></div>
+<div id="zoom" hidden><div id="zs" hidden></div><img id="zimg" alt=""><div id="zcap"></div></div>
 
 <div class="nav">
   <a href="#accueil" data-v="accueil" class="on"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="currentColor"/></svg>Accueil</a>
@@ -440,7 +461,7 @@ const prix=p=>p.p>0?fmt(p.p).replace(' FCFA','<small> FCFA</small>'):''+(p.devis
 const ICO_CHAT='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>';
 const ICO_SHARE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
 const card=(p,b)=>{const s=imgOf(p);
-  return `<div class="pk"><div class="pki">${p.vid?'<video src="'+esc(p.vid)+'"'+(s?' poster="'+esc(s)+'"':'')+' controls playsinline preload="metadata"></video>':s?'<img src="'+esc(s)+'" alt="" loading="lazy" data-zoom="'+esc(p.i)+'" data-e="'+(p.e||'🛍️')+'">':'<div class="pe2">'+(p.e||'🛍️')+'</div>'}${p.code?'<span class="pcode">'+esc(p.code)+'</span>':''}${b?'<span class="ptag">'+esc(b)+'</span>':''}${p.vid?'':'<span class="pzm">🔍</span>'}</div>
+  return `<div class="pk"><div class="pki">${p.imgs&&p.imgs.length>1&&!p.vid?'<div class="sl">'+p.imgs.map(u=>'<img src="'+esc(u)+'" alt="" loading="lazy" decoding="async" data-zoom="'+esc(p.i)+'" data-e="'+(p.e||'🛍️')+'">').join('')+'</div><span class="pn">1/'+p.imgs.length+'</span>':p.vid?'<video src="'+esc(p.vid)+'"'+(s?' poster="'+esc(s)+'"':'')+' controls playsinline preload="metadata"></video>':s?'<img src="'+esc(s)+'" alt="" loading="lazy" decoding="async" data-zoom="'+esc(p.i)+'" data-e="'+(p.e||'🛍️')+'">':'<div class="pe2">'+(p.e||'🛍️')+'</div>'}${p.code?'<span class="pcode">'+esc(p.code)+'</span>':''}${b?'<span class="ptag">'+esc(b)+'</span>':''}${p.vid||(p.imgs&&p.imgs.length>1)?'':'<span class="pzm">🔍</span>'}</div>
   <div class="pkb"><div class="pkn">${esc(p.n)}</div><div class="pkp">${prix(p)}</div><div class="pkd">${esc(p.d||p.resto||'')}</div>
   <div class="pkr">${p.v?'<button class="pkc" type="button" data-add="'+esc(p.i)+'">🛒 Ajouter</button>':'<button class="pkc" type="button" data-cmd="'+esc(p.i)+'">'+ICO_CHAT+' Commander</button>'}<button class="pks" type="button" data-share="'+esc(p.i)+'" aria-label="Partager">${ICO_SHARE}</button></div></div></div>`};
 
@@ -504,12 +525,16 @@ function chercher(){
   SERVICES.forEach((s,k)=>{
     if(norm(s.t+' '+s.h).includes(q))out.push('<div class="pc pla g" data-svc="'+k+'"><div class="pe">'+s.e+'</div><div class="tx"><div class="nm">'+esc(s.h)+'</div><div class="ds">Voir ce service</div></div></div>');
     (s.places||[]).filter(x=>norm(x.n+' '+x.d).includes(q)).forEach(x=>out.push(placeCard(x)));
-    (s.items||[]).filter(x=>norm(x.n+' '+(x.d||'')+' '+(x.resto||'')).includes(q)).forEach(x=>out.push(card(x,s.b)));
+    (s.items||[]).filter(x=>norm(x.n+' '+(x.d||'')+' '+(x.resto||'')+' '+(x.code||'')).includes(q)).forEach(x=>out.push(card(x,s.b)));
   });
   $('sh').innerText='Résultats';
   prods.innerHTML=out.length?out.join(''):'<div class="vide" style="grid-column:1/-1;padding:30px 10px">🔍<br>Aucun résultat pour « '+esc(raw)+' »</div>';
 }
 $('q').addEventListener('input',chercher);
+const fige=()=>{if(document.body.classList.contains('lock')&&(scrollY||document.body.scrollTop))window.scrollTo(0,0)};
+['focusin','focusout','resize','scroll'].forEach(ev=>window.addEventListener(ev,fige,{passive:true}));
+if(window.visualViewport)visualViewport.addEventListener('resize',fige);
+$('sbtn').onclick=()=>{const o=document.body.classList.toggle('sr');if(o)$('q').focus({preventScroll:true});else{$('q').value='';$('q').blur();chercher()}};
 
 // ===== BOUTIQUE NEUVE : lue depuis ton Google Sheet (colonnes : 2 nom, 3 prix, 4 photo, 5 description, 6 approuvé) =====
 const SHEET_ID='1895VPzGc3iNWS7psJNQUNBP0MjVy_PvncEkapwnNbFQ';
@@ -556,14 +581,15 @@ const DB_SEC={boutique:[NEUFS,'🛍️'],marketplace:[OCCAS,'♻️'],vivrier:[V
 function appliquerBase(rows){
   const par={};
   rows.forEach(r=>{if(!DB_SEC[r.section])return;if(r.status&&r.status!=='En stock')return;
-    (par[r.section]=par[r.section]||[]).push({n:r.name,p:Number(r.sell_price||r.price)||0,img:r.photo||r.image_url||'',d:r.description||'',
+    const im=(Array.isArray(r.photos)&&r.photos.length?r.photos:[r.photo||r.image_url]).filter(Boolean);
+    (par[r.section]=par[r.section]||[]).push({n:r.name,p:Number(r.sell_price||r.price)||0,img:im[0]||'',imgs:im,d:r.description||'',
       i:'db'+r.id,e:DB_SEC[r.section][1],code:r.code||'',vid:r.video_url||'',devis:(Number(r.sell_price||r.price)||0)>0?0:1,v:r.section==='vivrier'?1:0})});
   Object.keys(par).forEach(k=>{const a=DB_SEC[k][0];a.length=0;a.push(...par[k])});  // une section qui a de vrais produits remplace les exemples
   showService(cur);bnames(si);if($('q').value.trim())chercher();
 }
 async function chargerBase(){
   try{
-    const r=await fetch(DB_URL+'/rest/v1/products?select=id,name,description,price,sell_price,photo,image_url,section,code,status,video_url&region=eq.agadez&order=created_at.desc&limit=500',
+    const r=await fetch(DB_URL+'/rest/v1/products?select=id,name,description,price,sell_price,photo,image_url,section,code,status,video_url,photos&region=eq.agadez&order=created_at.desc&limit=500',
       {headers:{apikey:DB_KEY,Authorization:'Bearer '+DB_KEY}});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const rows=await r.json();try{localStorage.setItem('oda_db',JSON.stringify(rows))}catch(e){}
@@ -853,16 +879,21 @@ $('phgo').onclick=()=>{
 
 // ===== ZOOM sur la photo d'un produit + photo de remplacement si l'image ne charge pas =====
 document.addEventListener('click',e=>{
-  const im=e.target.closest('.pc>img,.pki>img');if(!im)return;
+  const im=e.target.closest('.pc>img,.pki>img,.sl>img');if(!im)return;
   const p=allItems().find(x=>x.i===im.dataset.zoom);
-  $('zimg').src=im.src;
+  if(p&&p.imgs&&p.imgs.length>1){const k=p.imgs.indexOf(im.getAttribute('src'));
+    $('zs').innerHTML=p.imgs.map(u=>'<img src="'+esc(u)+'" alt="">').join('');$('zs').hidden=false;$('zimg').hidden=true;
+    $('zoom').hidden=false;$('zs').scrollLeft=Math.max(0,k)*$('zs').clientWidth;
+  }else{$('zs').hidden=true;$('zimg').hidden=false;$('zimg').src=im.src;}
   $('zcap').innerText=p?p.n+(p.p>0?' · '+fmt(p.p):'')+(p.d?'\n'+p.d:''):'';
   $('zoom').hidden=false;
 });
 $('zoom').onclick=()=>{$('zoom').hidden=true};
+document.addEventListener('scroll',e=>{const t=e.target;if(!t.classList||!t.classList.contains('sl'))return;
+  const n=t.querySelectorAll('img').length,k=Math.round(t.scrollLeft/t.clientWidth)+1,b=t.parentNode.querySelector('.pn');if(b)b.textContent=Math.min(k,n)+'/'+n},true);
 document.addEventListener('error',e=>{
   const im=e.target;
-  if(im&&im.tagName==='IMG'&&im.matches('.pc>img,.pki>img')){const d=document.createElement('div');d.className='pe2';d.textContent=im.dataset.e||'🛍️';im.replaceWith(d)}
+  if(im&&im.tagName==='IMG'&&im.matches('.pc>img,.pki>img,.sl>img')){const d=document.createElement('div');d.className='pe2';d.textContent=im.dataset.e||'🛍️';im.replaceWith(d)}
 },true);
 // un service touché dans les résultats de recherche
 document.addEventListener('click',e=>{
@@ -879,6 +910,7 @@ function show(v){
   if(v==='profil')fillProfil();
   if(v==='pharma')position().then(p=>{pharmaPos=p});
   if(v==='food'){if(!$('fnom').value)$('fnom').value=getL('oda_nom')||'';if(!$('ftel').value)$('ftel').value=getL('oda_tel')||'';position()}
+  document.body.classList.toggle('lock',v==='accueil');
   window.scrollTo(0,0);
 }
 document.addEventListener('click',e=>{
