@@ -26,7 +26,7 @@ jobs:
       - name: Projet Android (Capacitor)
         run: |
           npm init -y >/dev/null
-          npm i @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npm i @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor/share@7
           npx cap init "ODA SHOP" com.odashop.agadez --web-dir www
           npx cap add android
           npx cap sync android
@@ -53,3 +53,4 @@ jobs:
           gh release create apk-latest ODA-SHOP.apk --title "ODA SHOP - application Android" --notes "Télécharge ODA-SHOP.apk puis installe-le sur ton téléphone."
       - uses: actions/upload-artifact@v4
         with: { name: ODA-SHOP-apk, path: ODA-SHOP.apk }
+        
