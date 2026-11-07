@@ -356,6 +356,53 @@ html[data-theme=dark] .immb{background:#141414}html[data-theme=dark] .immb h3{co
 html[data-theme=dark] .tot{background:#000}
 html[data-theme=dark] .out{background:#1c1c1c;color:#ff8f8f;border-color:#4a2a2a}
 html[data-theme=dark] .back{color:var(--y2)}
+
+/* === choix Immobilier : grandes cartes photo === */
+.imcw{display:flex;flex-direction:column;gap:14px}
+.imc{position:relative;height:168px;border-radius:24px;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#2a2100,#0b0b0b 70%);border:1.5px solid rgba(245,184,0,.45);box-shadow:0 8px 20px rgba(0,0,0,.28);animation:fi .25s both}
+.imc:active{transform:scale(.985)}
+.imcv{position:absolute;inset:0;background-size:cover;background-position:center}
+.imc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.35) 45%,rgba(0,0,0,.88) 100%)}
+.imcg{position:absolute;right:14px;top:6px;font-size:84px;opacity:.2;line-height:1}
+.imco{position:absolute;left:16px;right:60px;bottom:14px;z-index:2;color:#fff;display:flex;flex-direction:column;gap:2px}
+.imce{font-size:26px;line-height:1}
+.imco b{font-size:19px;font-weight:900;letter-spacing:.2px}
+.imco small{font-size:12px;color:#e6e6e6}
+.imcn{align-self:flex-start;margin-top:6px;background:linear-gradient(180deg,var(--y2),var(--y));color:#111;font-size:10.5px;font-weight:900;border-radius:10px;padding:3px 10px}
+.imca{position:absolute;right:14px;bottom:16px;z-index:2;width:36px;height:36px;border-radius:50%;background:linear-gradient(180deg,var(--y2),var(--y));color:#111;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+
+/* === Immobilier : design compact et soigné === */
+.imcw{display:flex;flex-direction:column;gap:10px}
+.imc{height:104px;display:flex;align-items:center;border-radius:20px;border:1px solid rgba(245,184,0,.38);background:linear-gradient(120deg,#241b00 0,#0e0e0e 62%);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.imc::after{display:none}
+.imcv{left:auto;right:0;width:50%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%)}
+.imcg{right:56px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.28}
+.imco{left:16px;right:70px;bottom:auto;top:50%;transform:translateY(-50%);gap:1px}
+.imce{display:none}
+.imco b{font-size:16.5px;letter-spacing:.2px}
+.imco b::before{content:"";display:inline-block;width:4px;height:15px;border-radius:2px;background:linear-gradient(180deg,var(--y2),#d49500);margin-right:8px;vertical-align:-2px}
+.imco small{font-size:11.5px;color:#cfcfcf}
+.imcn{margin-top:7px;font-size:10px;padding:2px 9px;border-radius:9px}
+.imca{right:12px;bottom:auto;top:50%;transform:translateY(-50%);width:32px;height:32px;font-size:20px}
+.imr{position:relative;display:flex;align-items:stretch;gap:12px;min-height:96px;padding:8px;border-radius:18px;background:#fff;border:1px solid #ecdca8;box-shadow:0 3px 10px rgba(0,0,0,.08);cursor:pointer;animation:fi .2s both;grid-column:1/-1}
+.imr:active{transform:scale(.985)}
+.imrp{position:relative;flex:none;width:104px;border-radius:13px;overflow:hidden;background:#efe3c0;display:flex;align-items:center;justify-content:center;font-size:34px}
+.imrp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.imrv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.62);color:var(--y2);font-style:normal;font-size:13px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--y2)}
+.imrn{position:absolute;left:5px;bottom:5px;background:rgba(15,15,15,.82);color:var(--y2);font-style:normal;font-size:9.5px;font-weight:800;padding:2px 6px;border-radius:8px}
+.imrt{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding-right:34px}
+.imrh{display:flex;gap:6px;align-items:center}
+.imrk{background:#111;color:var(--y2);font-size:9px;font-weight:900;letter-spacing:.5px;padding:2px 7px;border-radius:7px}
+.imrc{font-size:10px;font-weight:800;color:#a87400}
+.imrt b{font-size:14px;line-height:1.2;color:#161616;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.imrd{font-size:11px;color:#777;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.imrx{font-size:13.5px;font-weight:900;color:#c68a00}
+.imrs{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:50%;border:1.4px solid #1a1a1a;background:#fff;color:#1a1a1a;display:flex;align-items:center;justify-content:center}
+.imrs svg{width:15px;height:15px}
+html[data-theme=dark] .imr{background:#171717;border-color:rgba(255,216,77,.18)}
+html[data-theme=dark] .imrt b{color:#f4f4f4}html[data-theme=dark] .imrx{color:var(--y2)}html[data-theme=dark] .imrd{color:#a5a5a5}html[data-theme=dark] .imrc{color:var(--y2)}
+html[data-theme=dark] .imrs{background:#222;color:#f2f2f2;border-color:#555}html[data-theme=dark] .imrp{background:#222}
+.imcw>[data-subback]{align-self:flex-start;width:auto!important;padding:7px 14px;font-size:11px;border-radius:14px}
 </style>
 </head>
 <body class="lock">
@@ -506,13 +553,14 @@ const prix=p=>p.p>0?fmt(p.p).replace(' FCFA','<small> FCFA</small>'):''+(p.devis
 const ICO_CHAT='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>';
 const ICO_SHARE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
 const cardImmo=p=>{const c=(p.imgs&&p.imgs[0])||p.img||'',nb=(p.imgs||[]).length;
-  return `<div class="pk" data-imm="${esc(p.i)}"><div class="pki"><div class="cv">${c?'<img src="'+esc(c)+'" alt="" loading="lazy" decoding="async">':'<div class="pe2">'+(p.sub==='terrain'?'🏞️':'🏠')+'</div>'}</div>${p.code?'<span class="pcode">'+esc(p.code)+'</span>':''}<span class="ptag">${p.sub==='terrain'?'TERRAIN':'À LOUER'}</span>${p.vid?'<span class="pplay">▶</span>':''}${nb>1?'<span class="pn">📷 '+nb+'</span>':''}</div>
-  <div class="pkb"><div class="pkn">${esc(p.n)}</div><div class="pkp">${prix(p)}</div><div class="pkd">${esc(p.d||'')}</div>
-  <div class="pkr"><button class="pkc" type="button" data-imm="${esc(p.i)}">${p.vid?'▶ Voir la vidéo':'📷 Voir les photos'}</button><button class="pks" type="button" data-share="${esc(p.i)}" aria-label="Partager">${ICO_SHARE}</button></div></div></div>`};
+  return `<div class="imr" data-imm="${esc(p.i)}"><div class="imrp">${c?'<img src="'+esc(c)+'" alt="" loading="lazy" decoding="async">':'<span>'+(p.sub==='terrain'?'🏞️':'🏠')+'</span>'}${p.vid?'<i class="imrv">▶</i>':''}${nb>1?'<i class="imrn">📷 '+nb+'</i>':''}</div>
+  <div class="imrt"><div class="imrh"><span class="imrk">${p.sub==='terrain'?'TERRAIN':'À LOUER'}</span>${p.code?'<span class="imrc">'+esc(p.code)+'</span>':''}</div>
+  <b>${esc(p.n)}</b><span class="imrd">${esc(p.d||'')}</span><span class="imrx">${prix(p)}</span></div>
+  <button class="imrs" type="button" data-share="${esc(p.i)}" aria-label="Partager">${ICO_SHARE}</button></div>`};
 const card=(p,b)=>{if(p.sec==='immobilier')return cardImmo(p);const s=imgOf(p);
   return `<div class="pk"><div class="pki">${p.imgs&&p.imgs.length>1&&!p.vid?'<div class="sl">'+p.imgs.map(u=>'<img src="'+esc(u)+'" alt="" loading="lazy" decoding="async" data-zoom="'+esc(p.i)+'" data-e="'+(p.e||'🛍️')+'">').join('')+'</div><span class="pn">1/'+p.imgs.length+'</span>':p.vid?'<video src="'+esc(p.vid)+'"'+(s?' poster="'+esc(s)+'"':'')+' controls playsinline preload="metadata"></video>':s?'<img src="'+esc(s)+'" alt="" loading="lazy" decoding="async" data-zoom="'+esc(p.i)+'" data-e="'+(p.e||'🛍️')+'">':'<div class="pe2">'+(p.e||'🛍️')+'</div>'}${p.code?'<span class="pcode">'+esc(p.code)+'</span>':''}${b?'<span class="ptag">'+esc(b)+'</span>':''}${p.vid||(p.imgs&&p.imgs.length>1)?'':'<span class="pzm">🔍</span>'}</div>
   <div class="pkb"><div class="pkn">${esc(p.n)}</div><div class="pkp">${prix(p)}</div><div class="pkd">${esc(p.d||p.resto||'')}</div>
-  <div class="pkr">${p.v?'<button class="pkc" type="button" data-add="'+esc(p.i)+'">🛒 Ajouter</button>':'<button class="pkc" type="button" data-cmd="'+esc(p.i)+'">'+ICO_CHAT+' Commander</button>'}<button class="pks" type="button" data-share="'+esc(p.i)+'" aria-label="Partager">${ICO_SHARE}</button></div></div></div>`};
+  <div class="pkr">${p.v?'<button class="pkc" type="button" data-add="'+esc(p.i)+'">🛒 Ajouter</button>':'<button class="pkc" type="button" data-cmd="'+esc(p.i)+'">'+ICO_CHAT+' Commander</button>'}<button class="pks" type="button" data-share="${esc(p.i)}" aria-label="Partager">${ICO_SHARE}</button></div></div></div>`};
 
 // Services qui défilent toutes les 2 secondes. Le client touche un service pour voir SES produits
 const SOON='Aucun produit pour le moment.';
@@ -539,8 +587,12 @@ const placeCard=p=>`<a class="pc pla g" href="${p.view?'#'+p.view:'#'}"${p.sub?'
 function listHTML(s){
   if(s.cta)return '<div class="cta" data-v="'+s.cta.view+'"><div class="cico">'+s.cta.e+'</div><b>'+s.cta.t+'</b><p>'+s.cta.d+'</p><button class="btn" type="button">'+s.cta.b+' →</button></div>';
   if(s.immo&&immoSub){const l=(s.items||[]).filter(p=>p.sub===immoSub);
-    return '<button class="btn-v" type="button" data-subback style="grid-column:1/-1;width:100%">← '+SUBT[immoSub]+' : retour</button>'+
+    return '<button class="btn-v" type="button" data-subback style="grid-column:1/-1;width:100%">← Retour · '+SUBT[immoSub]+'</button>'+
       (l.length?l.map(p=>card(p,s.b)).join(''):'<div class="vide" style="grid-column:1/-1;padding:30px 10px">'+s.e+'<br>Aucune annonce pour le moment.</div>')}
+  if(s.immo)return s.places.map(pl=>{
+    const l=(s.items||[]).filter(p=>p.sub===pl.sub),ph=l.map(photoUrl).find(Boolean),n=l.length;
+    return '<div class="imc'+(ph?'':' nop')+'" data-sub="'+pl.sub+'">'+(ph?'<div class="imcv" style="background-image:url(\''+esc(ph)+'\')"></div>':'<span class="imcg">'+pl.e+'</span>')+
+      '<div class="imco"><span class="imce">'+pl.e+'</span><b>'+esc(pl.n)+'</b><small>'+esc(pl.d)+'</small><span class="imcn">'+(n?n+' annonce'+(n>1?'s':''):'Bientôt')+'</span></div><span class="imca">›</span></div>'}).join('');
   if(s.places)return s.places.map(placeCard).join('');
   if(s===SERVICES[0]&&neufEtat==='chargement')return '<div class="vide" style="grid-column:1/-1;padding:30px 10px">⏳<br>Chargement des produits...</div>';
   if(s.items&&s.items.length)return s.items.map(p=>card(p,s.b)).join('');
@@ -550,7 +602,7 @@ function showService(i){
   if(i!==lastShown){immoSub=null;lastShown=i}
   cur=i;const s=SERVICES[i];
   $('sh').innerText=s.h;
-  prods.innerHTML=listHTML(s);prods.className=(s.places&&!(s.immo&&immoSub))||s.cta?'gr':'pkg';
+  prods.innerHTML=listHTML(s);prods.className=s.immo?'imcw':(s.places||s.cta?'gr':'pkg');
   $('pscroll').scrollTop=0;
 }
 function bnames(i){
@@ -693,18 +745,29 @@ if(ville){
 }
 
 // « Commander » = commande directe du produit sur WhatsApp (le panier est réservé aux produits vivriers : p.v)
+const httpUrl=u=>/^https?:\/\//i.test(u||'')?u:'';
+const photoUrl=p=>httpUrl((p.imgs&&p.imgs.find(httpUrl))||p.img);
 function commander(k){
   const p=allItems().find(x=>x.i===k);if(!p)return;
-  const msg="Salam ODA SHOP, je veux commander :\n- 1 x "+p.n+(p.resto?" - "+p.resto:"")+" ("+(p.p>0?fmt(p.p):"sur devis")+")"+(p.code?"\nCode : "+p.code:"")+"\nNom : "+getL('oda_nom')+"\nTéléphone : "+getL('oda_tel')+"\nVille : "+(getL('oda_ville')||'Agadez');
+  const msg="Salam ODA SHOP, je veux commander :\n- 1 x "+p.n+(p.resto?" - "+p.resto:"")+" ("+(p.p>0?fmt(p.p):"sur devis")+")"+(p.code?"\nCode : "+p.code:"")+(photoUrl(p)?"\n📷 Photo : "+photoUrl(p):"")+(httpUrl(p.vid)?"\n🎬 Vidéo : "+p.vid:"")+"\nNom : "+getL('oda_nom')+"\nTéléphone : "+getL('oda_tel')+"\nVille : "+(getL('oda_ville')||'Agadez');
   envoyerCommande(msg);
 }
-// Partager un produit (feuille de partage du téléphone, sinon WhatsApp)
-document.addEventListener('click',e=>{
-  const s=e.target.closest('[data-share]');if(!s)return;
-  const p=allItems().find(x=>x.i===s.dataset.share);if(!p)return;
-  const txt=p.n+(p.p>0?' - '+fmt(p.p):'')+(p.code?' ('+p.code+')':'')+' | ODA SHOP Agadez',url=location.href.split('#')[0];
-  if(navigator.share)navigator.share({title:p.n,text:txt,url}).catch(()=>{});
-  else window.open('https://wa.me/?text='+encodeURIComponent(txt+'\n'+url),'_blank');
+// Partager un produit : feuille de partage (APK ou téléphone), sinon WhatsApp, sinon copie du texte
+const SITE_URL=''; // adresse publique de l'application (facultatif) : ex. 'https://oda-shop.pages.dev'
+document.addEventListener('click',async e=>{
+  const sb=e.target.closest('[data-share]');if(!sb)return;
+  const p=allItems().find(x=>x.i===sb.dataset.share);if(!p)return;
+  const web=/^https?:$/.test(location.protocol)&&!/^(localhost|127\.)/.test(location.hostname);
+  const lien=SITE_URL||(web?location.href.split('#')[0]:'');
+  const txt=p.n+(p.p>0?' - '+fmt(p.p):' - sur devis')+(p.code?' ('+p.code+')':'')+' | ODA SHOP Agadez'+(photoUrl(p)?'\n📷 '+photoUrl(p):'')+(httpUrl(p.vid)?'\n🎬 '+p.vid:'')+(lien?'\n'+lien:'');
+  const cap=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Share; // application Android
+  try{
+    if(cap){await cap.share({title:p.n,text:txt,dialogTitle:'Partager avec'});return}
+    if(navigator.share){await navigator.share({title:p.n,text:txt});return}
+  }catch(err){if(err&&err.name==='AbortError')return}
+  const wa='https://wa.me/?text='+encodeURIComponent(txt);
+  try{navigator.clipboard.writeText(txt).catch(()=>{})}catch(x){}
+  location.href=wa;
 });
 // Produit vivrier : le bouton + l'ajoute au panier
 
