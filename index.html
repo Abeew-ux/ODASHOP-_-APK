@@ -750,7 +750,7 @@ const photoUrl=p=>httpUrl((p.imgs&&p.imgs.find(httpUrl))||p.img);
 function commander(k){
   const p=allItems().find(x=>x.i===k);if(!p)return;
   const msg="Salam ODA SHOP, je veux commander :\n- 1 x "+p.n+(p.resto?" - "+p.resto:"")+" ("+(p.p>0?fmt(p.p):"sur devis")+")"+(p.code?"\nCode : "+p.code:"")+(httpUrl(p.vid)?"\n🎬 Vidéo : "+p.vid:"")+"\nNom : "+getL('oda_nom')+"\nTéléphone : "+getL('oda_tel')+"\nVille : "+(getL('oda_ville')||'Agadez');
-  envoyerCommande(msg,undefined,photoUrl(p));
+  envoyerCommande(msg,undefined,lienProduit(p));
 }
 // Partager un produit : feuille de partage (APK ou téléphone), sinon WhatsApp, sinon copie du texte
 const SITE_URL=''; // adresse publique de l'application (facultatif) : ex. 'https://oda-shop.pages.dev'
@@ -759,7 +759,7 @@ document.addEventListener('click',async e=>{
   const p=allItems().find(x=>x.i===sb.dataset.share);if(!p)return;
   const web=/^https?:$/.test(location.protocol)&&!/^(localhost|127\.)/.test(location.hostname);
   const lien=SITE_URL||(web?location.href.split('#')[0]:'');
-  const txt=p.n+(p.p>0?' - '+fmt(p.p):' - sur devis')+(p.code?' ('+p.code+')':'')+' | ODA SHOP Agadez'+(photoUrl(p)?'\n📷 '+photoUrl(p):'')+(httpUrl(p.vid)?'\n🎬 '+p.vid:'')+(lien?'\n'+lien:'');
+  const txt=p.n+(p.p>0?' - '+fmt(p.p):' - sur devis')+(p.code?' ('+p.code+')':'')+' | ODA SHOP Agadez'+(lienProduit(p)?'\n'+lienProduit(p):'')+(httpUrl(p.vid)?'\n🎬 '+p.vid:'')+(lien?'\n'+lien:'');
   const cap=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Share; // application Android
   try{
     if(cap){await cap.share({title:p.n,text:txt,dialogTitle:'Partager avec'});return}
@@ -849,29 +849,14 @@ function position(){
 const locTxt=p=>p
   ?'Localisation : https://www.google.com/maps?q='+p.lat.toFixed(6)+','+p.lng.toFixed(6)+' (précision environ '+p.acc+' m)\nCoordonnées : '+p.lat.toFixed(6)+', '+p.lng.toFixed(6)
   :'Localisation : non partagée (accès refusé ou GPS coupé)';
-// La photo du produit part avec le message (feuille de partage : choisir WhatsApp puis ODA SHOP)
-const WORKER='https://oda-photos.ibrahhalidzakarie3.workers.dev',R2PUB='https://pub-90e9a8b20b184af3978da9b02fdb5583.r2.dev/';
-const viaWorker=u=>u.startsWith(R2PUB)?WORKER+'/f/'+u.slice(R2PUB.length):u;
-const blobB64=b=>new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=ko;r.readAsDataURL(b)});
-async function partagerPhoto(u,txt){ // true = traité (envoyé ou annulé par le client)
-  try{
-    const r=await fetch(viaWorker(u));if(!r.ok)return false;const b=await r.blob();
-    const ext=((b.type||'image/jpeg').split('/')[1]||'jpg').replace('jpeg','jpg'),f=new File([b],'produit.'+ext,{type:b.type||'image/jpeg'});
-    const C=window.Capacitor&&Capacitor.Plugins;
-    if(C&&C.Share&&C.Filesystem){const w=await C.Filesystem.writeFile({path:f.name,data:await blobB64(b),directory:'CACHE'});await C.Share.share({text:txt,files:[w.uri],dialogTitle:'Envoyer avec la photo'});return true}
-    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:txt});return true}
-  }catch(e){if(e&&e.name==='AbortError')return true}
-  return false;
-}
+// Lien du produit : WhatsApp en affiche tout seul un aperçu avec la photo, le nom et le prix
+const WORKER='https://oda-photos.ibrahhalidzakarie3.workers.dev';
+const lienProduit=p=>p.code?WORKER+'/p/'+encodeURIComponent(p.code):photoUrl(p);
 async function envoyerCommande(corps,num,photo){
   toast('📍 Localisation en cours... autorise-la pour que le livreur te trouve',7000);
   const pos=await position();
-  if(photo){
-    toast('📷 Choisis WhatsApp puis ODA SHOP : la photo part avec ta commande',3500);
-    if(await partagerPhoto(photo,corps+'\n'+locTxt(pos)))return;
-  }
   toast(pos?'📍 Position ajoutée, ouverture de WhatsApp...':'Position non partagée, ouverture de WhatsApp...',3000);
-  const url='https://wa.me/'+(num||NUM)+'?text='+encodeURIComponent(corps+(photo?'\n📷 Photo : '+photo:'')+'\n'+locTxt(pos));
+  const url='https://wa.me/'+(num||NUM)+'?text='+encodeURIComponent(corps+(photo?'\n📷 '+photo:'')+'\n'+locTxt(pos));
   // on ouvre WhatsApp dans le même onglet (le plus fiable sur téléphone)
   try{location.href=url}catch(e){}
   // si rien ne s'est passé, un bouton à toucher apparaît
